@@ -1,7 +1,6 @@
 package com.techchefs.bank.service.impl;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class ClientService implements IClientService {
 
 	@Override
 	public void updateClient(Client client) throws ClientNotFoundException {
-	    Optional<Client> oldClientOp = clientRepository.findById(client.getId());
+	    Optional<Client> oldClientOp = clientRepository.findById(client.getClientId());
 	    if(oldClientOp.isPresent()) {
 	    	Client oldClient = oldClientOp.get();
 	    	oldClient.setAddress(client.getAddress());
@@ -41,7 +40,7 @@ public class ClientService implements IClientService {
 	}
 
 	@Override
-	public Client getClientById(UUID id) throws ClientNotFoundException{
+	public Client getClientById(Long id) throws ClientNotFoundException{
 		 Optional<Client> oldClientOp = clientRepository.findById(id);
 		    if(oldClientOp.isPresent()) {
 		    	return oldClientOp.get();

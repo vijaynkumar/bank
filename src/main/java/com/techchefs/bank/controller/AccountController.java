@@ -1,7 +1,5 @@
 package com.techchefs.bank.controller;
 
-import java.util.UUID;
-
 import javax.security.auth.login.AccountNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,7 @@ public class AccountController {
 	@Autowired
 	private IAccountService accountService;
 	
-	@RequestMapping(value = "/create", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<?> create(@RequestBody AccountRequest request) {
 		if(request == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -38,7 +36,7 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<?> delete(@PathVariable UUID id) throws AccountNotFoundException {
+	public @ResponseBody ResponseEntity<?> delete(@PathVariable Long id) throws AccountNotFoundException {
 		if(id == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -46,8 +44,8 @@ public class AccountController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/account/{id}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<?> create(@PathVariable UUID id) throws AccountNotFoundException {
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) throws AccountNotFoundException {
 		if(id == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -55,7 +53,7 @@ public class AccountController {
 		return new ResponseEntity<>(account, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/account/credit", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/credit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<?> credit(@RequestBody TransactioRequest request) throws AccountNotFoundException {
 		if(request == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -64,7 +62,7 @@ public class AccountController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/account/debit", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/debit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<?> debit(@RequestBody TransactioRequest request) throws AccountNotFoundException, InsufficientBalanceException {
 		if(request == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

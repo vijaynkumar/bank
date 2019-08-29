@@ -1,7 +1,5 @@
 package com.techchefs.bank.controller;
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +23,14 @@ public class TransactionController {
 	@Autowired
 	private ITransactionService transactionService;
 
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	@RequestMapping(value = "/all", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<?> getAll(@RequestBody TransactioRequest request) {
 		TransactionResponse transaction = transactionService.getAll(request);
 		return new ResponseEntity<>(transaction, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/id", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<?> getTransactions(@PathVariable UUID id) throws TransactionNotFoundException {
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<?> getTransactions(@PathVariable Long id) throws TransactionNotFoundException {
 		Transaction transaction = transactionService.findByID(id);
 		return new ResponseEntity<>(transaction, HttpStatus.OK);
 	}

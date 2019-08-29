@@ -2,11 +2,11 @@ package com.techchefs.bank.service.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.techchefs.bank.commons.exception.TransactionNotFoundException;
@@ -25,9 +25,7 @@ public class TransactionService implements ITransactionService {
 	@Override
 	public TransactionResponse getAll(TransactioRequest request) {
 		TransactionResponse reponse = new TransactionResponse();
-		Pageable pageable = new Pageable();
-		pageable.setPageParameter(request.getPageId().toString());
-		pageable.setPageParameter(request.getPageCount().toString());
+		Pageable pageable = PageRequest.of(request.getPageId(), request.getPageCount());
 		Page<Transaction> tranPage = transactionRepository.findAll(pageable);
 		List<Transaction> transactions = tranPage.getContent();
 		reponse.setTransactions(transactions);
@@ -36,7 +34,7 @@ public class TransactionService implements ITransactionService {
 	}
 
 	@Override
-	public Transaction findByID(UUID id) throws TransactionNotFoundException {
+	public Transaction findByID(Long id) throws TransactionNotFoundException {
 		Optional<Transaction> tran = transactionRepository.findById(id);
 		if(tran.isPresent()) {
 			return tran.get();

@@ -1,7 +1,5 @@
 package com.techchefs.bank.controller;
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,7 +32,7 @@ public class ClientController {
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<?> create(@RequestBody Client client) throws ClientNotFoundException {
+	public @ResponseBody ResponseEntity<?> update(@RequestBody Client client) throws ClientNotFoundException {
 		if(client == null) {
 			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -42,8 +40,8 @@ public class ClientController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value = "/client/{id}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<?> create(@PathVariable UUID id) throws ClientNotFoundException {
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) throws ClientNotFoundException {
 		if(id == null) {
 			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

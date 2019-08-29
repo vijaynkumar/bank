@@ -2,7 +2,6 @@ package com.techchefs.bank.service.impl;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
 
 import javax.security.auth.login.AccountNotFoundException;
 
@@ -36,19 +35,19 @@ public class AccountService implements IAccountService {
 	@Override
 	public void addAccount(AccountRequest request) {
 		Account newAccount = new Account();
-		newAccount.setBalance(Double.MIN_VALUE);
+		newAccount.setBalance(0.0);
 		newAccount.setCreatedDate(new Date());
 		newAccount.setStatus(Status.ACTIVE.toString());
 		newAccount.setType(request.getType());
 		Client client = new Client();
-		client.setId(request.getClientId());
+		client.setClientId(request.getClientId());
 		newAccount.setOwner(client);
 		newAccount.setAccountNumber(generateAccountnumber());
 		accountRepository.save(newAccount);
 	}
 
 	@Override
-	public void deleteAccount(UUID id) throws AccountNotFoundException {
+	public void deleteAccount(Long id) throws AccountNotFoundException {
 		Optional<Account> acctOpt = accountRepository.findById(id);
 		if (acctOpt.isPresent()) {
 			Account account = acctOpt.get();
@@ -60,7 +59,7 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public Account getAccountById(UUID id) throws AccountNotFoundException {
+	public Account getAccountById(Long id) throws AccountNotFoundException {
 		Optional<Account> acctOpt = accountRepository.findById(id);
 		if (acctOpt.isPresent()) {
 			return acctOpt.get();
@@ -70,8 +69,8 @@ public class AccountService implements IAccountService {
 	}
 
 	private long generateAccountnumber() {
-		long maxAcc = accountRepository.getMaxAccountNumber();
-		if (maxAcc == 0l) {
+		Long maxAcc = accountRepository.getMaxAccountNumber();
+		if (maxAcc == null) {
 			return ACOUNT_OFFSET;
 		}
 		return maxAcc + 1;
@@ -81,7 +80,7 @@ public class AccountService implements IAccountService {
 	@Override
 	public void creditBalance(TransactioRequest request) throws AccountNotFoundException {
 		Optional<Account> acctOpt = accountRepository.findById(request.getAccountId());
-		if (acctOpt.isPresent()) {
+		if (acctOpt.isPresent()) {//newAccount.setClientId(request.getClientId());
 			Account account = acctOpt.get();
 			account.setBalance(account.getBalance() + request.getAmount());
 			accountRepository.save(account);

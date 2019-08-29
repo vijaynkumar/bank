@@ -1,7 +1,5 @@
 package com.techchefs.bank.commons.request;
 
-import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,5 +14,5 @@ import lombok.Setter;
 @Setter
 public class AccountRequest {
 	private String type;
-	private UUID clientId;
+	private Long clientId;
 }
